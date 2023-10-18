@@ -4,7 +4,6 @@ export default function MarkerWrapper({ marker, moveMarker }) {
   const handleMoveMarker = (dragEnd) => {
     const lat = dragEnd.lngLat.lat;
     const lng = dragEnd.lngLat.lng;
-    console.log(dragEnd.lngLat);
     moveMarker(marker.id, lng, lat);
   };
 

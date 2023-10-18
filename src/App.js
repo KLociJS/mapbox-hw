@@ -1,22 +1,34 @@
-import useMarker from "./Components/Map/Hooks/useMarker";
-import useRoute from "./Components/Map/Hooks/useRoute";
 import Map from "./Components/Map/Map";
 import SideBar from "./Components/SideBar/SideBar";
-import { RouteContext } from "./Context/useRouteContext";
+import { MapContext } from "./Context/useMapContext";
+import useMarker from "./Hooks/useMarker";
+import useRoute from "./Hooks/useRoute";
+import useStyleRouteLine from "./Hooks/useStyleRouteLine";
 
 function App() {
   const { markers, placeMarker, moveMarker } = useMarker();
   const { coordinates, setCoordinates } = useRoute();
+  const { lineWidth, setLineWidth, color, setColor } = useStyleRouteLine();
 
   return (
-    <RouteContext.Provider
-      value={{ markers, placeMarker, moveMarker, coordinates, setCoordinates }}
+    <MapContext.Provider
+      value={{
+        markers,
+        placeMarker,
+        moveMarker,
+        coordinates,
+        setCoordinates,
+        lineWidth,
+        setLineWidth,
+        color,
+        setColor,
+      }}
     >
       <div className='app-container'>
         <SideBar />
         <Map />
       </div>
-    </RouteContext.Provider>
+    </MapContext.Provider>
   );
 }
 
