@@ -5,10 +5,14 @@ import "./SideBar.css";
 
 export default function SideBar() {
   const { markers, setCoordinates } = useRouteContext();
-  const { getDirectionsFetch } = useGetDirection(markers, setCoordinates);
+  const { getDirectionsFetch, routeData } = useGetDirection();
   return (
     <div className='sidebar-container'>
-      <button onClick={getDirectionsFetch}>Show route</button>
+      <button onClick={() => getDirectionsFetch(markers, setCoordinates)}>
+        Show route
+      </button>
+      {routeData.distance ? <p>Distance: {routeData.distance}</p> : null}
+      {routeData.duration ? <p>Duration: {routeData.duration}</p> : null}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import ReactMapGL from "react-map-gl";
 import useRouteContext from "../../Context/useRouteContext";
-import Markers from "./Markers";
+import MarkerWrapper from "./MarkerWrapper";
 import Route from "./Route";
 
 const token = process.env.REACT_APP_MAPBOX_TOKEN;
@@ -17,7 +17,7 @@ const mapProps = {
 };
 
 const Map = () => {
-  const { markers, placeMarker, coordinates } = useRouteContext();
+  const { markers, placeMarker, moveMarker, coordinates } = useRouteContext();
 
   const style = {
     "line-color": "rgba(3, 170, 238, 0.5)",
@@ -26,7 +26,13 @@ const Map = () => {
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>
-      <Markers markers={markers} />
+      {markers.map((marker) => (
+        <MarkerWrapper
+          key={`${marker.lng}${marker.lat}`}
+          marker={marker}
+          moveMarker={moveMarker}
+        />
+      ))}
       <Route coordinates={coordinates} style={style} />
     </ReactMapGL>
   );

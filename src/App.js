@@ -5,12 +5,12 @@ import SideBar from "./Components/SideBar/SideBar";
 import { RouteContext } from "./Context/useRouteContext";
 
 function App() {
-  const { markers, placeMarker } = useMarker();
+  const { markers, placeMarker, moveMarker } = useMarker();
   const { coordinates, setCoordinates } = useRoute();
 
   return (
     <RouteContext.Provider
-      value={{ markers, placeMarker, coordinates, setCoordinates }}
+      value={{ markers, placeMarker, moveMarker, coordinates, setCoordinates }}
     >
       <div className='app-container'>
         <SideBar />

@@ -6,13 +6,24 @@ export default function useMarker() {
 
   const placeMarker = ({ lngLat: { lng, lat } }) => {
     if (markers.length < markerLimit) {
-      setMarkers((prev) => [...prev, { lng, lat }]);
+      setMarkers((prev) => [...prev, { lng, lat, id: markers.length }]);
     }
   };
+
+  const moveMarker = (id, lng, lat) => {
+    setMarkers((prev) => {
+      const otherMarkers = prev.filter((m) => m.id !== id);
+      const currentMarker = prev.find((m) => m.id === id);
+      return [...otherMarkers, { id: currentMarker.id, lng, lat }];
+    });
+  };
+
+  console.log(markers);
 
   return {
     markers,
     setMarkerLimit,
     placeMarker,
+    moveMarker,
   };
 }

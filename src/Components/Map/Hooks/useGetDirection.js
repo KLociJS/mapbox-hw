@@ -1,9 +1,9 @@
+import { useState } from "react";
+
 const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 const APIURL = `https://api.mapbox.com/directions/v5/mapbox/driving/`;
 const PARAMS = `?geometries=geojson&access_token=${TOKEN}`;
-
-const example = `17.9,47.1;17.9,47.2`;
 
 const getLocations = (markers) => {
   return markers
@@ -15,14 +15,27 @@ const getLocations = (markers) => {
     .slice(0, -1);
 };
 
-export default function useGetDirection(markers, setCoordinates) {
-  const getDirectionsFetch = () => {
+export default function useGetDirection() {
+  const [routeData, setRouteData] = useState({
+    distance: null,
+    duration: null,
+  });
+
+  const getDirectionsFetch = (markers, setCoordinates) => {
+    console.log(markers);
     const coordinates = getLocations(markers);
     fetch(APIURL + coordinates + PARAMS)
       .then((res) => res.json())
-      .then((data) => setCoordinates(data.routes[0].geometry.coordinates))
+      .then((data) => {
+        console.log(data);
+        setRouteData({
+          distance: data.routes[0].distance,
+          duration: data.routes[0].duration,
+        });
+        setCoordinates(data.routes[0].geometry.coordinates);
+      })
       .catch((err) => console.log(err));
   };
 
-  return { getDirectionsFetch };
+  return { getDirectionsFetch, routeData };
 }
