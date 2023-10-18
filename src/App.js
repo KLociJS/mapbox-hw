@@ -1,13 +1,12 @@
 import Map from "./Components/Map/Map";
 import SideBar from "./Components/SideBar/SideBar";
 import { MapContext } from "./Context/useMapContext";
-import useMarker from "./Hooks/useMarker";
-import useRoute from "./Hooks/useRoute";
+import useRoutes from "./Hooks/useRoutes";
 import useStyleRouteLine from "./Hooks/useStyleRouteLine";
 
 function App() {
-  const { markers, placeMarker, moveMarker } = useMarker();
-  const { coordinates, setCoordinates } = useRoute();
+  const { markers, placeMarker, moveMarker, routeData, routeCoordinates } =
+    useRoutes();
   const { lineWidth, setLineWidth, color, setColor } = useStyleRouteLine();
 
   return (
@@ -16,8 +15,8 @@ function App() {
         markers,
         placeMarker,
         moveMarker,
-        coordinates,
-        setCoordinates,
+        routeCoordinates,
+        routeData,
         lineWidth,
         setLineWidth,
         color,

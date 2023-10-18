@@ -17,13 +17,7 @@ const mapProps = {
 };
 
 const Map = () => {
-  const { markers, placeMarker, moveMarker, coordinates, color, lineWidth } =
-    useMapContext();
-
-  const style = {
-    "line-color": color,
-    "line-width": +lineWidth,
-  };
+  const { markers, placeMarker, moveMarker } = useMapContext();
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>
@@ -34,7 +28,7 @@ const Map = () => {
           moveMarker={moveMarker}
         />
       ))}
-      <Route coordinates={coordinates} style={style} />
+      <Route />
     </ReactMapGL>
   );
 };
