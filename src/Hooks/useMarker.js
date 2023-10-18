@@ -18,8 +18,6 @@ export default function useMarker() {
     });
   };
 
-  console.log(markers);
-
   return {
     markers,
     setMarkerLimit,
