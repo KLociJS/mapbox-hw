@@ -1,4 +1,7 @@
 import React from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { BiTimeFive } from "react-icons/bi";
+import { GiPathDistance } from "react-icons/gi";
 import useMapContext from "../../Context/useMapContext";
 import Input from "./Input";
 import "./SideBar.css";
@@ -20,40 +23,50 @@ export default function SideBar() {
     <div className='sidebar-container'>
       {markers.map((m, i) => (i < allowedMarkers ? <Input id={i} /> : null))}
       {activeMarkers === allowedMarkers ? (
-        <button
-          onClick={() => {
-            console.log("clicker");
-            increaseAllowedMarker();
-          }}
-        >
-          Add new point
+        <button onClick={increaseAllowedMarker} className='icon-button'>
+          <AiOutlinePlusCircle className='icon' /> Add destination
         </button>
       ) : null}
-      <div className='route-info'>
+      <div className='route-info-container'>
         {routeData.distance ? (
-          <p>Distance: {Math.round(routeData.distance)}m</p>
+          <p className='route-info'>
+            <GiPathDistance className='icon' /> {Math.round(routeData.distance)}
+            m
+          </p>
         ) : null}
         {routeData.duration ? (
-          <p>Duration: {Math.round(routeData.duration)}s</p>
+          <p className='route-info'>
+            <BiTimeFive className='icon' /> {Math.round(routeData.duration)}s
+          </p>
         ) : null}
       </div>
       <div className='accessibility-container'>
-        <p>Edit Route appearance</p>
-        <input
-          type='color'
-          name='color-picker'
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-        <input
-          type='range'
-          name='route-line-width'
-          min={5}
-          max={15}
-          step={1}
-          value={lineWidth}
-          onChange={(e) => setLineWidth(e.target.value)}
-        />
+        <p className='accessibility-header'>Edit Route appearance</p>
+        <div className='input-label-group'>
+          <label className='input-label' htmlFor='color-picker'>
+            Color
+          </label>
+          <input
+            type='color'
+            name='color-picker'
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+          />
+        </div>
+        <div className='input-label-group'>
+          <label className='input-label' htmlFor='route-line-width'>
+            width
+          </label>
+          <input
+            type='range'
+            name='route-line-width'
+            min={5}
+            max={15}
+            step={1}
+            value={lineWidth}
+            onChange={(e) => setLineWidth(e.target.value)}
+          />
+        </div>
       </div>
     </div>
   );

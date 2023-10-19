@@ -8,11 +8,52 @@
 
 .accessibility-container {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
   gap: 0.5rem;
+
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.accessibility-header {
+  flex-basis: 100%;
+  color: gray;
+  text-align: center;
+  line-height: 0.1;
 }
 
+.icon-button {
+  display: flex;
+  align-items: center;
+  border: none;
+  background-color: white;
+  margin: 0 auto;
+  color: gray;
+}
+.icon-button:hover {
+  cursor: pointer;
+}
+.icon {
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+  color: rgb(36, 36, 36);
+}
+.route-info-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
 .route-info {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  color: gray;
+}
+
+.input-label-group {
+  display: flex;
+  flex-direction: column;
+}
+.input-label {
+  color: gray;
 }
