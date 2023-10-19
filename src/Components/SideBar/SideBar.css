@@ -11,7 +11,6 @@
   flex-wrap: wrap;
   justify-content: space-around;
   gap: 0.5rem;
-
   border: 1px solid gray;
   border-radius: 5px;
   padding: 0.5rem;
@@ -33,6 +32,8 @@
 }
 .icon-button:hover {
   cursor: pointer;
+  background-color: aliceblue;
+  border-radius: 5px;
 }
 .icon {
   font-size: 1.5rem;

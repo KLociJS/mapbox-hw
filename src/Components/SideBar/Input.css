@@ -13,7 +13,19 @@
 .autocomplete-container {
   position: absolute;
   top: 2rem;
-  padding: 1rem;
   background-color: aliceblue;
   z-index: 3;
+  border-radius: 5px;
+}
+
+.autocomplete-suggestion {
+  border-bottom: 1px solid gray;
+  padding: 1rem;
+}
+.autocomplete-suggestion:last-child {
+  border: none;
+}
+.autocomplete-suggestion:hover {
+  background-color: rgb(223, 240, 255);
+  cursor: pointer;
 }
