@@ -1,13 +1,12 @@
 import ReactMapGL from "react-map-gl";
+import TOKEN from "../../Constants/Token";
 import useMapContext from "../../Context/useMapContext";
 import MarkerWrapper from "./MarkerWrapper";
 import Route from "./Route";
 
-const token = process.env.REACT_APP_MAPBOX_TOKEN;
-
 const mapProps = {
   mapStyle: "mapbox://styles/mapbox/streets-v11",
-  mapboxAccessToken: token,
+  mapboxAccessToken: TOKEN,
   initialViewState: {
     longitude: 17.9,
     latitude: 47.1,
@@ -18,8 +17,6 @@ const mapProps = {
 
 const Map = () => {
   const { markers, placeMarker, moveMarker } = useMapContext();
-  console.log("map runs");
-  console.log(markers);
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>

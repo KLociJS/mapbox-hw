@@ -1,20 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import useMapContext from "../../Context/useMapContext";
+import React from "react";
+import useInput from "../../Hooks/useInput";
 import AutocompleteSuggestion from "./AutocompleteSuggestion";
 import "./Input.css";
 
-const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
-const APIURL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
-const PARAMS = `?access_token=${TOKEN}`;
-
 export default function Input({ id }) {
-  const { markers, removeMarker } = useMapContext();
-  const indexRef = useRef(id);
-
-  const [value, setValue] = useState("");
-
-  const [isFocused, setIsFocused] = useState(false);
-  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState([]);
+  const {
+    setIsFocused,
+    isFocused,
+    removeMarker,
+    indexRef,
+    value,
+    setValue,
+    autocompleteSuggestions,
+    setAutocompleteSuggestions,
+  } = useInput(id);
 
   const handleBlur = () => {
     setTimeout(() => {
@@ -29,26 +28,6 @@ export default function Input({ id }) {
   const handleRemoveMarker = () => {
     removeMarker(indexRef.current);
   };
-
-  // When the corresponding Point has place, load is as default value
-  useEffect(() => {
-    const currentPoint = markers.find((m) => m.id === id);
-    if (currentPoint.place !== null) {
-      setValue(currentPoint.place);
-    }
-  }, [markers, id]);
-
-  // Fetch for suggestions (autocomplete)
-  useEffect(() => {
-    if (value.length > 3) {
-      fetch(APIURL + value + ".json" + PARAMS)
-        .then((res) => res.json())
-        .then((data) => {
-          setAutocompleteSuggestions(data.features);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [value]);
 
   return (
     <div className='input-group'>

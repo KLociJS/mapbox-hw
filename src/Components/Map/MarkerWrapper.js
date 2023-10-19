@@ -8,14 +8,12 @@ export default function MarkerWrapper({ marker, moveMarker }) {
   };
 
   return (
-    <>
-      <Marker
-        key={`${marker.lng}${marker.lat}`}
-        longitude={marker.lng}
-        latitude={marker.lat}
-        draggable={true}
-        onDragEnd={handleMoveMarker}
-      />
-    </>
+    <Marker
+      key={`${marker.lng}${marker.lat}`}
+      longitude={marker.lng}
+      latitude={marker.lat}
+      draggable={true}
+      onDragEnd={handleMoveMarker}
+    />
   );
 }

@@ -1,28 +1,13 @@
 import { useEffect, useReducer } from "react";
 
-const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
+import {
+  directionsParams,
+  directionsRoute,
+  geoCodingRoute,
+  tokenFirstParam,
+} from "../Constants/Url";
 
-const GEOCODINGAPI = `https://api.mapbox.com/geocoding/v5/mapbox.places/`;
-const GEOPARAMS = `?access_token=${TOKEN}`;
-
-const getLocationCode = (lng, lat) => {
-  return `${lng},${lat}.json`;
-};
-
-const DIRECTINSAPI = `https://api.mapbox.com/directions/v5/mapbox/driving/`;
-const DIRECTIONSPARAMS = `?geometries=geojson&access_token=${TOKEN}`;
-
-const getLocations = (markers) => {
-  return markers
-    .reduce(
-      (locations, currentLocation) =>
-        currentLocation.lng !== null
-          ? (locations += `${currentLocation.lng},${currentLocation.lat};`)
-          : locations,
-      ""
-    )
-    .slice(0, -1);
-};
+import { getLocationCode, getLocationCodes } from "../Utils/UrlUtils";
 
 const mapReducer = (state, action) => {
   switch (action.type) {
@@ -103,10 +88,11 @@ const initialState = {
 export default function useRoutes() {
   const [state, dispatch] = useReducer(mapReducer, initialState);
 
+  // Draw route
   useEffect(() => {
     if (state.activeMarkers > 1) {
-      const coordinates = getLocations(state.markers);
-      fetch(DIRECTINSAPI + coordinates + DIRECTIONSPARAMS)
+      const coordinates = getLocationCodes(state.markers);
+      fetch(directionsRoute + coordinates + directionsParams)
         .then((res) => res.json())
         .then((data) => {
           dispatch({
@@ -124,13 +110,14 @@ export default function useRoutes() {
     }
   }, [state.markers, state.activeMarkers]);
 
+  //Create new point, place marker
   const placeMarker = ({ lngLat: { lng, lat } }) => {
     if (
       state.activeMarkers < 24 &&
       state.allowedMarkers > state.activeMarkers
     ) {
       const locationCode = getLocationCode(lng, lat);
-      fetch(GEOCODINGAPI + locationCode + GEOPARAMS)
+      fetch(geoCodingRoute + locationCode + tokenFirstParam)
         .then((res) => res.json())
         .then((data) =>
           dispatch({
@@ -142,9 +129,10 @@ export default function useRoutes() {
     }
   };
 
+  //Edit existing point, move marker
   const moveMarker = (id, lng, lat) => {
     const locationCode = getLocationCode(lng, lat);
-    fetch(GEOCODINGAPI + locationCode + GEOPARAMS)
+    fetch(geoCodingRoute + locationCode + tokenFirstParam)
       .then((res) => res.json())
       .then((data) => {
         dispatch({

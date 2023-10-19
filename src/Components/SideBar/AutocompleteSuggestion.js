@@ -10,11 +10,11 @@ export default function AutocompleteSuggestion({
 
   const handleSelectSuggestion = () => {
     const currentPoint = markers.find((m) => m.id === pointId);
+
     if (currentPoint.place === null) {
       const pointCoordinates = {
         lngLat: { lng: place.center[0], lat: place.center[1] },
       };
-      console.log("placing marker: ", pointCoordinates);
       placeMarker(pointCoordinates);
     } else {
       moveMarker(pointId, place.center[0], place.center[1]);
