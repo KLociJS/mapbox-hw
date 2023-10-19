@@ -3,6 +3,10 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { GiPathDistance } from "react-icons/gi";
 import useMapContext from "../../Context/useMapContext";
+import {
+  distanceConverter,
+  durationConverter,
+} from "../../Utils/RouteInfoUtils";
 import Input from "./Input";
 import "./SideBar.css";
 
@@ -30,13 +34,14 @@ export default function SideBar() {
       <div className='route-info-container'>
         {routeData.distance ? (
           <p className='route-info'>
-            <GiPathDistance className='icon' /> {Math.round(routeData.distance)}
-            m
+            <GiPathDistance className='icon' />{" "}
+            {distanceConverter(routeData.distance)}
           </p>
         ) : null}
         {routeData.duration ? (
           <p className='route-info'>
-            <BiTimeFive className='icon' /> {Math.round(routeData.duration)}s
+            <BiTimeFive className='icon' />{" "}
+            {durationConverter(routeData.duration)}
           </p>
         ) : null}
       </div>

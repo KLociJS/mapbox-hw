@@ -24,7 +24,7 @@ export default function AutocompleteSuggestion({
   };
 
   return (
-    <div onClick={handleSelectSuggestion}>
+    <div onClick={handleSelectSuggestion} className='autocomplete-suggestion'>
       <p>{place.place_name}</p>
     </div>
   );
