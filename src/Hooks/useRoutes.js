@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 const TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -16,53 +16,127 @@ const getLocations = (markers) => {
   return markers
     .reduce(
       (locations, currentLocation) =>
-        (locations += `${currentLocation.lng},${currentLocation.lat};`),
+        currentLocation.lng !== null
+          ? (locations += `${currentLocation.lng},${currentLocation.lat};`)
+          : locations,
       ""
     )
     .slice(0, -1);
 };
 
+const mapReducer = (state, action) => {
+  switch (action.type) {
+    case "choose_point": {
+      let updatedPoints = state.markers.map((m) =>
+        m.id === state.activeMarkers ? { ...m, ...action.payload } : m
+      );
+      return {
+        ...state,
+        markers: [...updatedPoints],
+        activeMarkers: state.activeMarkers + 1,
+      };
+    }
+
+    case "move_point": {
+      let updatedPoints = state.markers.map((m) =>
+        m.id === action.payload.id ? { ...m, ...action.payload.point } : m
+      );
+      return {
+        ...state,
+        markers: [...updatedPoints],
+      };
+    }
+
+    case "delete_point": {
+      let filteredPoints = state.markers.filter((m) => m.id !== action.payload);
+      let updatedPoints = filteredPoints.map((m) =>
+        m.id > action.payload ? { ...m, id: m.id - 1 } : m
+      );
+      updatedPoints.push({
+        lng: null,
+        lat: null,
+        place: null,
+        id: 23,
+      });
+      return {
+        ...state,
+        markers: [...updatedPoints],
+        activeMarkers: state.activeMarkers - 1,
+        allowedMarkers: state.allowedMarkers - 1,
+      };
+    }
+
+    case "increase_number_of_allowed_markers": {
+      return {
+        ...state,
+        allowedMarkers: state.allowedMarkers + 1,
+      };
+    }
+
+    case "add_route": {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    }
+
+    default:
+      break;
+  }
+  throw new Error("Invalid map reducer action.");
+};
+
+const initialMarkers = [];
+
+for (let i = 0; i < 24; i++) {
+  initialMarkers.push({ lng: null, lat: null, place: null, id: i });
+}
+
+const initialState = {
+  markers: initialMarkers,
+  routeData: { distance: null, duration: null },
+  routeCoordinates: [],
+  activeMarkers: 0,
+  allowedMarkers: 2,
+};
+
 export default function useRoutes() {
-  const [markers, setMarkers] = useState([]);
-  const [routeCoordinates, setRouteCoordinates] = useState([]);
-  const [routeData, setRouteData] = useState({
-    distance: null,
-    duration: null,
-  });
-  const [markerLimit, setMarkerLimit] = useState(4);
+  const [state, dispatch] = useReducer(mapReducer, initialState);
 
   useEffect(() => {
-    if (markers.length > 1) {
-      const coordinates = getLocations(markers);
+    if (state.activeMarkers > 1) {
+      const coordinates = getLocations(state.markers);
       fetch(DIRECTINSAPI + coordinates + DIRECTIONSPARAMS)
         .then((res) => res.json())
         .then((data) => {
-          setRouteData({
-            distance: data.routes[0].distance,
-            duration: data.routes[0].duration,
+          dispatch({
+            type: "add_route",
+            payload: {
+              routeCoordinates: data.routes[0].geometry.coordinates,
+              routeData: {
+                distance: data.routes[0].distance,
+                duration: data.routes[0].duration,
+              },
+            },
           });
-          setRouteCoordinates(data.routes[0].geometry.coordinates);
         })
         .catch((err) => console.log(err));
     }
-  }, [markers]);
+  }, [state.markers, state.activeMarkers]);
 
   const placeMarker = ({ lngLat: { lng, lat } }) => {
-    if (markers.length < markerLimit) {
+    if (
+      state.activeMarkers < 24 &&
+      state.allowedMarkers > state.activeMarkers
+    ) {
       const locationCode = getLocationCode(lng, lat);
-
       fetch(GEOCODINGAPI + locationCode + GEOPARAMS)
         .then((res) => res.json())
         .then((data) =>
-          setMarkers((prev) => [
-            ...prev,
-            {
-              lng,
-              lat,
-              id: markers.length,
-              place_name: data.features[0].place_name,
-            },
-          ])
+          dispatch({
+            type: "choose_point",
+            payload: { lng, lat, place: data.features[0].place_name },
+          })
         )
         .catch((err) => console.log(err));
     }
@@ -70,27 +144,33 @@ export default function useRoutes() {
 
   const moveMarker = (id, lng, lat) => {
     const locationCode = getLocationCode(lng, lat);
-
     fetch(GEOCODINGAPI + locationCode + GEOPARAMS)
       .then((res) => res.json())
       .then((data) => {
-        setMarkers((prev) => {
-          const currentMarker = prev.find((m) => m.id === id);
-          currentMarker.lng = lng;
-          currentMarker.lat = lat;
-          currentMarker.place_name = data.features[0].place_name;
-          return [...prev];
+        dispatch({
+          type: "move_point",
+          payload: {
+            id,
+            point: { lng, lat, place: data.features[0].place_name },
+          },
         });
       })
       .catch((err) => console.log(err));
   };
 
+  const increaseAllowedMarker = () => {
+    dispatch({ type: "increase_number_of_allowed_markers" });
+  };
+
+  const removeMarker = (id) => {
+    dispatch({ type: "delete_point", payload: id });
+  };
+
   return {
-    markers,
-    setMarkerLimit,
+    state,
     placeMarker,
     moveMarker,
-    routeCoordinates,
-    routeData,
+    increaseAllowedMarker,
+    removeMarker,
   };
 }

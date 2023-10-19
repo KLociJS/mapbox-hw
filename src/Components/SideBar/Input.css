@@ -1,0 +1,19 @@
+.input-group {
+  position: relative;
+  display: flex;
+}
+
+.point-input {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #616161;
+}
+
+.autocomplete-container {
+  position: absolute;
+  top: 2rem;
+  padding: 1rem;
+  background-color: aliceblue;
+  z-index: 3;
+}

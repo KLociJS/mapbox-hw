@@ -1,16 +1,34 @@
 import React from "react";
 import useMapContext from "../../Context/useMapContext";
+import Input from "./Input";
 import "./SideBar.css";
 
 export default function SideBar() {
-  const { markers, color, setColor, lineWidth, setLineWidth, routeData } =
-    useMapContext();
+  const {
+    markers,
+    allowedMarkers,
+    activeMarkers,
+    increaseAllowedMarker,
+    color,
+    setColor,
+    lineWidth,
+    setLineWidth,
+    routeData,
+  } = useMapContext();
 
   return (
     <div className='sidebar-container'>
-      {markers.map((m) => (
-        <input key={m.place_name} type='text' value={m.place_name} />
-      ))}
+      {markers.map((m, i) => (i < allowedMarkers ? <Input id={i} /> : null))}
+      {activeMarkers === allowedMarkers ? (
+        <button
+          onClick={() => {
+            console.log("clicker");
+            increaseAllowedMarker();
+          }}
+        >
+          Add new point
+        </button>
+      ) : null}
       <div className='route-info'>
         {routeData.distance ? (
           <p>Distance: {Math.round(routeData.distance)}m</p>

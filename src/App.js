@@ -5,16 +5,31 @@ import useRoutes from "./Hooks/useRoutes";
 import useStyleRouteLine from "./Hooks/useStyleRouteLine";
 
 function App() {
-  const { markers, placeMarker, moveMarker, routeData, routeCoordinates } =
-    useRoutes();
+  const {
+    state: {
+      markers,
+      routeCoordinates,
+      routeData,
+      allowedMarkers,
+      activeMarkers,
+    },
+    increaseAllowedMarker,
+    placeMarker,
+    moveMarker,
+    removeMarker,
+  } = useRoutes();
   const { lineWidth, setLineWidth, color, setColor } = useStyleRouteLine();
 
   return (
     <MapContext.Provider
       value={{
         markers,
+        allowedMarkers,
+        activeMarkers,
         placeMarker,
         moveMarker,
+        removeMarker,
+        increaseAllowedMarker,
         routeCoordinates,
         routeData,
         lineWidth,

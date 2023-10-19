@@ -18,16 +18,20 @@ const mapProps = {
 
 const Map = () => {
   const { markers, placeMarker, moveMarker } = useMapContext();
+  console.log("map runs");
+  console.log(markers);
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>
-      {markers.map((marker) => (
-        <MarkerWrapper
-          key={`${marker.lng}${marker.lat}`}
-          marker={marker}
-          moveMarker={moveMarker}
-        />
-      ))}
+      {markers.map((marker) =>
+        marker.lng !== null ? (
+          <MarkerWrapper
+            key={`${marker.lng}${marker.lat}`}
+            marker={marker}
+            moveMarker={moveMarker}
+          />
+        ) : null
+      )}
       <Route />
     </ReactMapGL>
   );
