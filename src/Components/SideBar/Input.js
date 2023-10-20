@@ -1,8 +1,8 @@
 import React from "react";
-import { AiOutlineCloseCircle } from "react-icons/ai";
 import useInput from "../../Hooks/useInput";
 import AutocompleteSuggestion from "./AutocompleteSuggestion";
 import "./Input.css";
+import RemoveMarkerButton from "./RemoveMarkerButton";
 
 export default function Input({ id }) {
   const {
@@ -40,11 +40,7 @@ export default function Input({ id }) {
         onFocus={handleFocus}
         placeholder='Start typing a place...'
       />
-      {id > 1 ? (
-        <button onClick={handleRemoveMarker} className='icon-button'>
-          <AiOutlineCloseCircle className='icon' />
-        </button>
-      ) : null}
+      <RemoveMarkerButton id={id} handleRemoveMarker={handleRemoveMarker} />
       {autocompleteSuggestions.length > 0 && isFocused ? (
         <div className='autocomplete-container'>
           {autocompleteSuggestions.map((place, i) => (
