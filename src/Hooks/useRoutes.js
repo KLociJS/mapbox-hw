@@ -1,13 +1,8 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 
-import {
-  directionsParams,
-  directionsRoute,
-  geoCodingRoute,
-  tokenFirstParam,
-} from "../Constants/Url";
+import { geoCodingRoute, tokenFirstParam } from "../Constants/Url";
 
-import { getLocationCode, getLocationCodes } from "../Utils/UrlUtils";
+import { getLocationCode } from "../Utils/UrlUtils";
 
 const mapReducer = (state, action) => {
   switch (action.type) {
@@ -58,13 +53,6 @@ const mapReducer = (state, action) => {
       };
     }
 
-    case "add_route": {
-      return {
-        ...state,
-        ...action.payload,
-      };
-    }
-
     default:
       break;
   }
@@ -80,35 +68,12 @@ for (let i = 0; i < 24; i++) {
 const initialState = {
   markers: initialMarkers,
   routeData: { distance: null, duration: null },
-  routeCoordinates: [],
   activeMarkers: 0,
   allowedMarkers: 2,
 };
 
 export default function useRoutes() {
   const [state, dispatch] = useReducer(mapReducer, initialState);
-
-  // Draw route
-  useEffect(() => {
-    if (state.activeMarkers > 1) {
-      const coordinates = getLocationCodes(state.markers);
-      fetch(directionsRoute + coordinates + directionsParams)
-        .then((res) => res.json())
-        .then((data) => {
-          dispatch({
-            type: "add_route",
-            payload: {
-              routeCoordinates: data.routes[0].geometry.coordinates,
-              routeData: {
-                distance: data.routes[0].distance,
-                duration: data.routes[0].duration,
-              },
-            },
-          });
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [state.markers, state.activeMarkers]);
 
   //Place marker by click
   const placeMarker = ({ lngLat: { lng, lat } }) => {
@@ -181,5 +146,6 @@ export default function useRoutes() {
     moveMarkerWithInput,
     increaseAllowedMarker,
     removeMarker,
+    dispatch,
   };
 }
