@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { geoCodingRoute, tokenFirstParam } from "../Constants/Url";
 import useMarkerContext from "../Context/useMarkerContext";
 
 export default function useInput(id) {
   const { markers, removeMarker } = useMarkerContext();
-  const indexRef = useRef(id);
 
   const [value, setValue] = useState("");
 
@@ -35,7 +34,6 @@ export default function useInput(id) {
     setIsFocused,
     isFocused,
     removeMarker,
-    indexRef,
     value,
     setValue,
     autocompleteSuggestions,

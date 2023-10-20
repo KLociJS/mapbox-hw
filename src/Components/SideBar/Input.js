@@ -9,7 +9,6 @@ export default function Input({ id }) {
     setIsFocused,
     isFocused,
     removeMarker,
-    indexRef,
     value,
     setValue,
     autocompleteSuggestions,
@@ -27,7 +26,7 @@ export default function Input({ id }) {
   };
 
   const handleRemoveMarker = () => {
-    removeMarker(indexRef.current);
+    removeMarker(id);
   };
 
   return (
@@ -51,7 +50,7 @@ export default function Input({ id }) {
           {autocompleteSuggestions.map((place, i) => (
             <AutocompleteSuggestion
               key={i}
-              pointId={indexRef.current}
+              pointId={id}
               place={place}
               setAutocompleteSuggestions={setAutocompleteSuggestions}
             />
