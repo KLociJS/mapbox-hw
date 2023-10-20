@@ -1,6 +1,7 @@
 import React from "react";
+import useMarkerContext from "../../Context/useMarkerContext";
 import useInput from "../../Hooks/useInput";
-import AutocompleteSuggestion from "./AutocompleteSuggestion";
+import AutocompleteSuggestions from "./AutocompleteSuggestions";
 import "./Input.css";
 import RemoveMarkerButton from "./RemoveMarkerButton";
 
@@ -8,12 +9,12 @@ export default function Input({ id }) {
   const {
     setIsFocused,
     isFocused,
-    removeMarker,
     value,
     setValue,
     autocompleteSuggestions,
     setAutocompleteSuggestions,
   } = useInput(id);
+  const { removeMarker } = useMarkerContext();
 
   const handleBlur = () => {
     setTimeout(() => {
@@ -41,18 +42,12 @@ export default function Input({ id }) {
         placeholder='Start typing a place...'
       />
       <RemoveMarkerButton id={id} handleRemoveMarker={handleRemoveMarker} />
-      {autocompleteSuggestions.length > 0 && isFocused ? (
-        <div className='autocomplete-container'>
-          {autocompleteSuggestions.map((place, i) => (
-            <AutocompleteSuggestion
-              key={i}
-              pointId={id}
-              place={place}
-              setAutocompleteSuggestions={setAutocompleteSuggestions}
-            />
-          ))}
-        </div>
-      ) : null}
+      <AutocompleteSuggestions
+        id={id}
+        autocompleteSuggestions={autocompleteSuggestions}
+        setAutocompleteSuggestions={setAutocompleteSuggestions}
+        isFocused={isFocused}
+      />
     </div>
   );
 }

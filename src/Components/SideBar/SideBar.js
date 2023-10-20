@@ -22,7 +22,9 @@ export default function SideBar() {
   return (
     <div className='sidebar-container'>
       {/* Input fields */}
-      {markers.map((m, i) => (i < allowedMarkers ? <Input id={i} /> : null))}
+      {markers.map((m, i) =>
+        i < allowedMarkers ? <Input key={i} id={i} /> : null
+      )}
       {/* Add destination button */}
       {activeMarkers === allowedMarkers ? (
         <button onClick={increaseAllowedMarker} className='icon-button'>

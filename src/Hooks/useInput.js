@@ -3,7 +3,7 @@ import { geoCodingRoute, tokenFirstParam } from "../Constants/Url";
 import useMarkerContext from "../Context/useMarkerContext";
 
 export default function useInput(id) {
-  const { markers, removeMarker } = useMarkerContext();
+  const { markers } = useMarkerContext();
 
   const [value, setValue] = useState("");
 
@@ -33,7 +33,6 @@ export default function useInput(id) {
   return {
     setIsFocused,
     isFocused,
-    removeMarker,
     value,
     setValue,
     autocompleteSuggestions,
