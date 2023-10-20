@@ -39,6 +39,7 @@ export default function Input({ id }) {
         onChange={(e) => setValue(e.target.value)}
         onBlur={handleBlur}
         onFocus={handleFocus}
+        placeholder='Start typing a place...'
       />
       {id > 1 ? (
         <button onClick={handleRemoveMarker} className='icon-button'>

@@ -110,7 +110,7 @@ export default function useRoutes() {
     }
   }, [state.markers, state.activeMarkers]);
 
-  //Create new point, place marker
+  //Place marker by click
   const placeMarker = ({ lngLat: { lng, lat } }) => {
     if (
       state.activeMarkers < 24 &&
@@ -129,8 +129,8 @@ export default function useRoutes() {
     }
   };
 
-  //Edit existing point, move marker
-  const moveMarker = (id, lng, lat) => {
+  //Move marker with mouse
+  const dragMarker = (id, lng, lat) => {
     const locationCode = getLocationCode(lng, lat);
     fetch(geoCodingRoute + locationCode + tokenFirstParam)
       .then((res) => res.json())
@@ -146,6 +146,25 @@ export default function useRoutes() {
       .catch((err) => console.log(err));
   };
 
+  //place marker by autocomplete
+  const placeMarkerByAutocomplete = (lng, lat, place) => {
+    dispatch({
+      type: "choose_point",
+      payload: { lng, lat, place },
+    });
+  };
+
+  //Move marker with input
+  const moveMarkerWithInput = (id, lng, lat, place) => {
+    dispatch({
+      type: "move_point",
+      payload: {
+        id,
+        point: { lng, lat, place },
+      },
+    });
+  };
+
   const increaseAllowedMarker = () => {
     dispatch({ type: "increase_number_of_allowed_markers" });
   };
@@ -157,7 +176,9 @@ export default function useRoutes() {
   return {
     state,
     placeMarker,
-    moveMarker,
+    placeMarkerByAutocomplete,
+    dragMarker,
+    moveMarkerWithInput,
     increaseAllowedMarker,
     removeMarker,
   };

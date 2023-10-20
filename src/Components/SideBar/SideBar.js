@@ -25,13 +25,16 @@ export default function SideBar() {
 
   return (
     <div className='sidebar-container'>
+      {/* Input fields */}
       {markers.map((m, i) => (i < allowedMarkers ? <Input id={i} /> : null))}
+      {/* Add destination button */}
       {activeMarkers === allowedMarkers ? (
         <button onClick={increaseAllowedMarker} className='icon-button'>
           <AiOutlinePlusCircle className='icon' /> Add destination
         </button>
       ) : null}
       <div className='route-info-container'>
+        {/*  */}
         {routeData.distance ? (
           <p className='route-info'>
             <GiPathDistance className='icon' />{" "}

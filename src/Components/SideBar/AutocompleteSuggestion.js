@@ -6,18 +6,26 @@ export default function AutocompleteSuggestion({
   place,
   setAutocompleteSuggestions,
 }) {
-  const { markers, placeMarker, moveMarker } = useMapContext();
+  const { markers, placeMarkerByAutocomplete, moveMarkerWithInput } =
+    useMapContext();
 
   const handleSelectSuggestion = () => {
     const currentPoint = markers.find((m) => m.id === pointId);
 
+    //place a new marker or create a new one
     if (currentPoint.place === null) {
-      const pointCoordinates = {
-        lngLat: { lng: place.center[0], lat: place.center[1] },
-      };
-      placeMarker(pointCoordinates);
+      placeMarkerByAutocomplete(
+        place.center[0],
+        place.center[1],
+        place.place_name
+      );
     } else {
-      moveMarker(pointId, place.center[0], place.center[1]);
+      moveMarkerWithInput(
+        pointId,
+        place.center[0],
+        place.center[1],
+        place.place_name
+      );
     }
 
     setAutocompleteSuggestions([]);

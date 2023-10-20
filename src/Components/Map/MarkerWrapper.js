@@ -1,10 +1,10 @@
 import { Marker } from "react-map-gl";
 
-export default function MarkerWrapper({ marker, moveMarker }) {
-  const handleMoveMarker = (dragEnd) => {
+export default function MarkerWrapper({ marker, dragMarker }) {
+  const handleDragMarker = (dragEnd) => {
     const lat = dragEnd.lngLat.lat;
     const lng = dragEnd.lngLat.lng;
-    moveMarker(marker.id, lng, lat);
+    dragMarker(marker.id, lng, lat);
   };
 
   return (
@@ -13,7 +13,7 @@ export default function MarkerWrapper({ marker, moveMarker }) {
       longitude={marker.lng}
       latitude={marker.lat}
       draggable={true}
-      onDragEnd={handleMoveMarker}
+      onDragEnd={handleDragMarker}
     />
   );
 }

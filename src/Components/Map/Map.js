@@ -16,7 +16,7 @@ const mapProps = {
 };
 
 const Map = () => {
-  const { markers, placeMarker, moveMarker } = useMapContext();
+  const { markers, placeMarker, dragMarker } = useMapContext();
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>
@@ -25,7 +25,7 @@ const Map = () => {
           <MarkerWrapper
             key={`${marker.lng}${marker.lat}`}
             marker={marker}
-            moveMarker={moveMarker}
+            dragMarker={dragMarker}
           />
         ) : null
       )}

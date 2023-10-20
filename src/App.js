@@ -15,7 +15,9 @@ function App() {
     },
     increaseAllowedMarker,
     placeMarker,
-    moveMarker,
+    placeMarkerByAutocomplete,
+    dragMarker,
+    moveMarkerWithInput,
     removeMarker,
   } = useRoutes();
   const { lineWidth, setLineWidth, color, setColor } = useStyleRouteLine();
@@ -27,7 +29,9 @@ function App() {
         allowedMarkers,
         activeMarkers,
         placeMarker,
-        moveMarker,
+        placeMarkerByAutocomplete,
+        dragMarker,
+        moveMarkerWithInput,
         removeMarker,
         increaseAllowedMarker,
         routeCoordinates,
