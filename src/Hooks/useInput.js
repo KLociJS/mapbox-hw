@@ -20,14 +20,17 @@ export default function useInput(id) {
 
   // Fetch for suggestions (autocomplete)
   useEffect(() => {
-    if (value.length > 3) {
-      fetch(geoCodingRoute + value + ".json" + tokenFirstParam)
-        .then((res) => res.json())
-        .then((data) => {
-          setAutocompleteSuggestions(data.features);
-        })
-        .catch((err) => console.log(err));
-    }
+    const timeoutId = setTimeout(() => {
+      if (value.length > 3) {
+        fetch(geoCodingRoute + value + ".json" + tokenFirstParam)
+          .then((res) => res.json())
+          .then((data) => {
+            setAutocompleteSuggestions(data.features);
+          })
+          .catch((err) => console.log(err));
+      }
+    }, 300);
+    return () => clearTimeout(timeoutId);
   }, [value]);
 
   return {
