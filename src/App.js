@@ -1,8 +1,15 @@
+//Components
 import Map from "./Components/Map/Map";
 import SideBar from "./Components/SideBar/SideBar";
-import { MapContext } from "./Context/useMapContext";
+
+//Context
+import { MarkerContext } from "./Context/useMarkerContext";
+import { RouteInfoContext } from "./Context/useRouteContext";
+import { RouteStyleContext } from "./Context/useRouteStyleContext";
+
+//Hooks
+import useMarker from "./Hooks/useMarker";
 import useRouteInfo from "./Hooks/useRouteInfo";
-import useRoutes from "./Hooks/useRoutes";
 import useStyleRouteLine from "./Hooks/useStyleRouteLine";
 
 function App() {
@@ -15,36 +22,36 @@ function App() {
     moveMarkerWithInput,
     removeMarker,
     dispatch,
-  } = useRoutes();
+  } = useMarker();
   const { routeData, setRouteData } = useRouteInfo();
   const { lineWidth, setLineWidth, color, setColor } = useStyleRouteLine();
 
   return (
-    <MapContext.Provider
-      value={{
-        markers,
-        allowedMarkers,
-        activeMarkers,
-        placeMarker,
-        placeMarkerByAutocomplete,
-        dragMarker,
-        moveMarkerWithInput,
-        removeMarker,
-        increaseAllowedMarker,
-        routeData,
-        setRouteData,
-        dispatch,
-        lineWidth,
-        setLineWidth,
-        color,
-        setColor,
-      }}
+    <RouteStyleContext.Provider
+      value={{ lineWidth, setLineWidth, color, setColor }}
     >
-      <div className='app-container'>
-        <SideBar />
-        <Map />
-      </div>
-    </MapContext.Provider>
+      <RouteInfoContext.Provider value={{ routeData, setRouteData }}>
+        <MarkerContext.Provider
+          value={{
+            markers,
+            allowedMarkers,
+            activeMarkers,
+            placeMarker,
+            placeMarkerByAutocomplete,
+            dragMarker,
+            moveMarkerWithInput,
+            removeMarker,
+            increaseAllowedMarker,
+            dispatch,
+          }}
+        >
+          <div className='app-container'>
+            <SideBar />
+            <Map />
+          </div>
+        </MarkerContext.Provider>
+      </RouteInfoContext.Provider>
+    </RouteStyleContext.Provider>
   );
 }
 

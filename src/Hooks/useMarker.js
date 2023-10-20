@@ -72,7 +72,7 @@ const initialState = {
   allowedMarkers: 2,
 };
 
-export default function useRoutes() {
+export default function useMarker() {
   const [state, dispatch] = useReducer(mapReducer, initialState);
 
   //Place marker by click

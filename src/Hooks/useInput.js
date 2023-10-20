@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { geoCodingRoute, tokenFirstParam } from "../Constants/Url";
-import useMapContext from "../Context/useMapContext";
+import useMarkerContext from "../Context/useMarkerContext";
 
 export default function useInput(id) {
-  const { markers, removeMarker } = useMapContext();
+  const { markers, removeMarker } = useMarkerContext();
   const indexRef = useRef(id);
 
   const [value, setValue] = useState("");

@@ -2,7 +2,9 @@ import React from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BiTimeFive } from "react-icons/bi";
 import { GiPathDistance } from "react-icons/gi";
-import useMapContext from "../../Context/useMapContext";
+import useMarkerContext from "../../Context/useMarkerContext";
+import useRouteInfoContext from "../../Context/useRouteContext";
+import useRouteStyleContext from "../../Context/useRouteStyleContext";
 import {
   distanceConverter,
   durationConverter,
@@ -11,17 +13,11 @@ import Input from "./Input";
 import "./SideBar.css";
 
 export default function SideBar() {
-  const {
-    markers,
-    allowedMarkers,
-    activeMarkers,
-    increaseAllowedMarker,
-    color,
-    setColor,
-    lineWidth,
-    setLineWidth,
-    routeData,
-  } = useMapContext();
+  const { markers, allowedMarkers, activeMarkers, increaseAllowedMarker } =
+    useMarkerContext();
+  const { routeData } = useRouteInfoContext();
+
+  const { color, setColor, lineWidth, setLineWidth } = useRouteStyleContext();
 
   return (
     <div className='sidebar-container'>

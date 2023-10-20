@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { directionsParams, directionsRoute } from "../Constants/Url";
-import useMapContext from "../Context/useMapContext";
+import useRouteInfoContext from "../Context/useRouteContext";
 import { getLocationCodes } from "../Utils/UrlUtils";
 
 export default function useDrawRoute(activeMarkers, markers, dispatch) {
   const [routeCoordinates, setRouteCoordinates] = useState([]);
-  const { setRouteData } = useMapContext();
+  const { setRouteData } = useRouteInfoContext();
 
   // Draw route
   useEffect(() => {

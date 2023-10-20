@@ -1,6 +1,6 @@
 import ReactMapGL from "react-map-gl";
 import TOKEN from "../../Constants/Token";
-import useMapContext from "../../Context/useMapContext";
+import useMarkerContext from "../../Context/useMarkerContext";
 import MarkerWrapper from "./MarkerWrapper";
 import Route from "./Route";
 
@@ -16,7 +16,7 @@ const mapProps = {
 };
 
 const Map = () => {
-  const { markers, placeMarker, dragMarker } = useMapContext();
+  const { markers, placeMarker, dragMarker } = useMarkerContext();
 
   return (
     <ReactMapGL {...mapProps} onClick={placeMarker}>

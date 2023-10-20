@@ -1,5 +1,5 @@
 import React from "react";
-import useMapContext from "../../Context/useMapContext";
+import useMarkerContext from "../../Context/useMarkerContext";
 
 export default function AutocompleteSuggestion({
   pointId,
@@ -7,7 +7,7 @@ export default function AutocompleteSuggestion({
   setAutocompleteSuggestions,
 }) {
   const { markers, placeMarkerByAutocomplete, moveMarkerWithInput } =
-    useMapContext();
+    useMarkerContext();
 
   const handleSelectSuggestion = () => {
     const currentPoint = markers.find((m) => m.id === pointId);
