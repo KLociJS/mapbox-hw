@@ -14,7 +14,7 @@ export default function Input({ id }) {
     autocompleteSuggestions,
     setAutocompleteSuggestions,
   } = useInput(id);
-  const { removeMarker } = useMarkerContext();
+  const { removeMarker, activeMarkers } = useMarkerContext();
 
   const handleBlur = () => {
     setTimeout(() => {
@@ -41,7 +41,10 @@ export default function Input({ id }) {
         onFocus={handleFocus}
         placeholder='Start typing a place...'
       />
-      <RemoveMarkerButton id={id} handleRemoveMarker={handleRemoveMarker} />
+      <RemoveMarkerButton
+        activeMarkers={activeMarkers}
+        handleRemoveMarker={handleRemoveMarker}
+      />
       <AutocompleteSuggestions
         id={id}
         autocompleteSuggestions={autocompleteSuggestions}

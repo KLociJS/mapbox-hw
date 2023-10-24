@@ -1,10 +1,13 @@
 import React from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-export default function RemoveMarkerButton({ id, handleRemoveMarker }) {
+export default function RemoveMarkerButton({
+  handleRemoveMarker,
+  activeMarkers,
+}) {
   return (
     <>
-      {id > 1 ? (
+      {activeMarkers > 2 ? (
         <button onClick={handleRemoveMarker} className='icon-button'>
           <AiOutlineCloseCircle className='icon' />
         </button>
