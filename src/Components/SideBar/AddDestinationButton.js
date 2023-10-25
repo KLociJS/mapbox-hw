@@ -7,7 +7,7 @@ export default function AddDestinationButton() {
     useMarkerContext();
   return (
     <>
-      {activeMarkers === allowedMarkers ? (
+      {activeMarkers === allowedMarkers && activeMarkers < 24 ? (
         <button onClick={increaseAllowedMarker} className='icon-button'>
           <AiOutlinePlusCircle className='icon' /> Add destination
         </button>
